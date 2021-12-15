@@ -216,11 +216,7 @@ function App() {
           </button>
         </form>
       </div>
-      {/* <p>{startDate}</p>
 
-      <p>{endDate}</p>
-
-      <p>{financialData?.length}</p> */}
       <div className="appParagraph">
         {dataLoaded && (
           <p style={{ color: "green", fontWeight: "700" }}>
@@ -280,22 +276,6 @@ function App() {
           </div>
         )}
       </div>
-
-      {/* <div>
-        {financialData?.map((item) => (
-          <li key={item[0]}>
-            <p>Date: {convertToISO(item[0])}</p>
-            <p>Price: {item[1].toFixed(2)}</p>
-          </li>
-        ))}
-
-        {totalVolumes?.map((item) => (
-          <li key={item[0]}>
-            <p>Date: {convertToISO(item[0])}</p>
-            <p>Volume: {item[1].toFixed(2)}</p>
-          </li>
-        ))}
-      </div> */}
     </div>
   );
 }
