@@ -197,21 +197,21 @@ function App() {
   return (
     <div className="App">
       <div className="appParagraph">
-        <p>Set the date range</p>
+        <p className="appTitle">Set the date range</p>
         <form onSubmit={(e) => handleSubmitAndFilter(e)}>
           <input
-            className="formItem"
+            className="formItem inputElement"
             type="date"
             placeholder="From"
             onInput={(e) => handleSetStart(e)}
           />
           <input
-            className="formItem"
+            className="formItem inputElement"
             type="date"
             placeholder="To"
             onInput={(e) => handleSetEnd(e)}
           />
-          <button className="formItem" type="submit">
+          <button className="formItem submitButton" type="submit">
             Submit
           </button>
         </form>

@@ -1,10 +1,35 @@
 .App {
   text-align: center;
+  font-size: x-large;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+.infoButton {
+  margin: 10px;
+  font-size: large;
+  padding: 10px;
+}
+.appTitle {
+  font-size: 2.4rem;
+}
+.inputElement {
+  font-size: 1.2rem;
+}
+
+.submitButton {
+  font-size: 1.2rem;
+  padding: 8px;
+}
+.formItem {
+  margin: 10px;
+}
+
+.appParagraph {
+  margin: 50px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
