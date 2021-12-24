@@ -1,12 +1,6 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  findLongestDownward,
-  findMaxVolume,
-  findMaxPrice,
-  findMinPrice,
-} from "./utils";
 
 function App() {
   const [financialData, setFinancialData] = useState([]);
@@ -107,31 +101,30 @@ function App() {
     setMessage("");
     setMaxVolume(0);
     if (dataLoaded) {
-      const down = findLongestDownward(financialData);
-      setDownwardSpan(down);
+      findLongestDownward();
     } else {
       setMessage("Please enter some dates first for showing the trend");
     }
   };
 
-  // const findLongestDownward = () => {
-  //   const prices = financialData.map((item) => item[1]);
-  //   let n_max = 0;
-  //   let n_current = 0;
-  //   for (let i = 0; i < prices.length; i++) {
-  //     while (prices[i] > prices[i + 1]) {
-  //       ++n_current;
-  //       i++;
-  //     }
+  const findLongestDownward = () => {
+    const prices = financialData.map((item) => item[1]);
+    let n_max = 0;
+    let n_current = 0;
+    for (let i = 0; i < prices.length; i++) {
+      while (prices[i] > prices[i + 1]) {
+        ++n_current;
+        i++;
+      }
 
-  //     if (n_current > n_max) {
-  //       n_max = n_current;
-  //     }
-  //     n_current = 0;
-  //   }
-  //   setDownwardSpan(n_max);
-  //   console.log("DOWN", downwardSpan);
-  // };
+      if (n_current > n_max) {
+        n_max = n_current;
+      }
+      n_current = 0;
+    }
+    setDownwardSpan(n_max);
+    console.log("DOWN", downwardSpan);
+  };
 
   //The date with the highest trading volume and the volume (max total volume and corresponding date)
   const handleFindVolume = () => {
@@ -141,11 +134,7 @@ function App() {
     setShowVolume(true);
     if (dataLoaded) {
       setDownwardSpan("");
-      const maxVolInfo = findMaxVolume(totalVolumes);
-      const maximumVolume = maxVolInfo[0];
-      const maximumVolumeDate = maxVolInfo[1];
-      setMaxVolume(maximumVolume);
-      setMaxVolumeDate(maximumVolumeDate);
+      findMaxVolume();
       console.log(maxVolumeDate);
       console.log(convertToISO(maxVolumeDate));
     } else {
@@ -153,16 +142,16 @@ function App() {
     }
   };
 
-  // const findMaxVolume = () => {
-  //   const dates = totalVolumes.map((item) => item[0]);
-  //   const volumes = totalVolumes.map((item) => item[1]);
-  //   let maximumVolume = Math.max(...volumes);
-  //   const maxVolumeIndex = volumes.indexOf(maximumVolume);
-  //   let maximumVolumeDate = dates[maxVolumeIndex];
-  //   setMaxVolume(maximumVolume);
-  //   setMaxVolumeDate(maximumVolumeDate);
-  //   console.log("MAX VOLUME AND DATE", maxVolume, maxVolumeDate);
-  // };
+  const findMaxVolume = () => {
+    const dates = totalVolumes.map((item) => item[0]);
+    const volumes = totalVolumes.map((item) => item[1]);
+    let maximumVolume = Math.max(...volumes);
+    const maxVolumeIndex = volumes.indexOf(maximumVolume);
+    setMaxVolume(maximumVolume);
+    let maximumVolumeDate = dates[maxVolumeIndex];
+    setMaxVolumeDate(maximumVolumeDate);
+    console.log("MAX VOLUME AND DATE", maxVolume, maxVolumeDate);
+  };
 
   const handleShouldBuyOrSell = () => {
     setMessage("");
@@ -209,69 +198,35 @@ function App() {
     setShowDown(false);
     setShowVolume(false);
     setDownwardSpan("");
-    const minPrice = findMinPrice(financialData);
-    setMinPriceDate(minPrice);
-    const maxDate = findMaxPrice(financialData);
-    setMaxPriceDate(maxDate);
+    findMaxPrice();
+    findMinPrice();
   };
 
-  // const findMaxPrice = () => {
-  //   const prices = financialData.map((item) => item[1]);
-  //   const dates = financialData.map((item) => item[0]);
-  //   // const minPriceIndex = prices.indexOf(minPrice);
-  //   // console.log(minPriceIndex, "INDEX");
-  //   // const dates = financialData.map((item) => item[0]).slice(minPriceIndex);
-  //   // const new_prices = prices.slice(minPriceIndex);
+  const findMaxPrice = () => {
+    const dates = financialData.map((item) => item[0]);
+    const prices = financialData.map((item) => item[1]);
+    let maximumPrice = Math.max(...prices);
+    const maxPriceIndex = prices.indexOf(maximumPrice);
+    setMaxPrice(maximumPrice);
+    let maximumPriceDate = dates[maxPriceIndex];
+    setMaxPriceDate(maximumPriceDate);
+    console.log("MAX SELL", maxPriceDate, maxPrice);
+  };
 
-  //   // // //TODO: set left limit to be minDate
-  //   // // const prices = financialData.map((item) => item[1]);
-  //   // let maximumPrice = Math.max(...new_prices);
-  //   // const maxPriceIndex = new_prices.indexOf(maximumPrice);
+  const handleFindBuy = () => {
+    findMinPrice();
+  };
 
-  //   let maxBenefit = 0;
-  //   let buyIndex = -1;
-  //   let sellIndex = -1;
-  //   for (let i = 0; i < prices.length; i++) {
-  //     for (let j = i; j < prices.length; j++) {
-  //       const benefit = prices[j] - prices[i];
-  //       if (benefit > maxBenefit) {
-  //         maxBenefit = benefit;
-  //         buyIndex = i;
-  //         sellIndex = j;
-  //       }
-  //     }
-  //   }
-
-  //   setMaxPrice(prices[sellIndex]);
-  //   let maximumPriceDate = dates[sellIndex];
-  //   setMaxPriceDate(maximumPriceDate);
-  //   console.log("MAX SELL", maxPriceDate, maxPrice);
-  // };
-
-  // const findMinPrice = () => {
-  //   let dates = financialData.map((item) => item[0]);
-  //   const prices = financialData.map((item) => item[1]);
-  //   // let minimumPrice = Math.min(...prices);
-  //   // const minPriceIndex = prices.indexOf(minimumPrice);
-  //   let maxBenefit = 0;
-  //   let buyIndex = -1;
-  //   let sellIndex = -1;
-  //   for (let i = 0; i < prices.length; i++) {
-  //     for (let j = i; j < prices.length; j++) {
-  //       const benefit = prices[j] - prices[i];
-  //       if (benefit > maxBenefit) {
-  //         maxBenefit = benefit;
-  //         buyIndex = i;
-  //         sellIndex = j;
-  //       }
-  //     }
-  //   }
-
-  //   setMinPrice(prices[buyIndex]);
-  //   let minimumPriceDate = dates[buyIndex];
-  //   setMinPriceDate(minimumPriceDate);
-  //   console.log("MIN BUY", minPriceDate, minPrice);
-  // };
+  const findMinPrice = () => {
+    let dates = financialData.map((item) => item[0]);
+    const prices = financialData.map((item) => item[1]);
+    let minimumPrice = Math.min(...prices);
+    const minPriceIndex = prices.indexOf(minimumPrice);
+    setMinPrice(minimumPrice);
+    let minimumPriceDate = dates[minPriceIndex];
+    setMinPriceDate(minimumPriceDate);
+    console.log("MIN BUY", minPriceDate, minPrice);
+  };
 
   //If the price only decreases in the date range, warn to not buy and not sell
 
@@ -315,6 +270,14 @@ function App() {
         >
           Longest downward{" "}
         </button>
+        <button
+          className="infoButton"
+          onClick={() => {
+            handleShouldBuyOrSell();
+          }}
+        >
+          Sell or Buy
+        </button>
 
         <button
           className="infoButton"
@@ -323,15 +286,6 @@ function App() {
           }}
         >
           Highest trading volume
-        </button>
-
-        <button
-          className="infoButton"
-          onClick={() => {
-            handleShouldBuyOrSell();
-          }}
-        >
-          Sell and Buy
         </button>
       </div>
 
@@ -349,8 +303,8 @@ function App() {
           ))}
 
         {showTrade &&
-          (canTrade ? (
-            maxPrice ? (
+          (maxPrice ? (
+            canTrade ? (
               <div>
                 {minPrice && <p>Should buy: on {convertToISO(minPriceDate)}</p>}
                 {maxPrice && (
@@ -358,12 +312,11 @@ function App() {
                 )}
               </div>
             ) : (
-              <p>{message}</p>
+              <p>Deals are not profitable: the price only decreases</p>
             )
           ) : (
-            <p>Deals are not profitable: the price only decreases</p>
+            <p>{message}</p>
           ))}
-
         {showDown &&
           (downwardSpan ? (
             <div>
@@ -373,6 +326,7 @@ function App() {
             <p>{message}</p>
           ))}
       </div>
+      <p>{message}</p>
     </div>
   );
 }
