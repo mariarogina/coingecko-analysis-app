@@ -14,8 +14,6 @@ function App() {
   const [endDate, setEndDate] = useState("");
   const [totalVolumes, setTotalVolumes] = useState([]);
   const [maxVolume, setMaxVolume] = useState(0);
-  const [maxPrice, setMaxPrice] = useState("");
-  const [minPrice, setMinPrice] = useState("");
   const [downwardSpan, setDownwardSpan] = useState("");
   const [maxPriceDate, setMaxPriceDate] = useState("");
   const [minPriceDate, setMinPriceDate] = useState("");
@@ -114,25 +112,6 @@ function App() {
     }
   };
 
-  // const findLongestDownward = () => {
-  //   const prices = financialData.map((item) => item[1]);
-  //   let n_max = 0;
-  //   let n_current = 0;
-  //   for (let i = 0; i < prices.length; i++) {
-  //     while (prices[i] > prices[i + 1]) {
-  //       ++n_current;
-  //       i++;
-  //     }
-
-  //     if (n_current > n_max) {
-  //       n_max = n_current;
-  //     }
-  //     n_current = 0;
-  //   }
-  //   setDownwardSpan(n_max);
-  //   console.log("DOWN", downwardSpan);
-  // };
-
   //The date with the highest trading volume and the volume (max total volume and corresponding date)
   const handleFindVolume = () => {
     setMessage("");
@@ -152,17 +131,6 @@ function App() {
       setMessage("Please enter some dates first for showing volume");
     }
   };
-
-  // const findMaxVolume = () => {
-  //   const dates = totalVolumes.map((item) => item[0]);
-  //   const volumes = totalVolumes.map((item) => item[1]);
-  //   let maximumVolume = Math.max(...volumes);
-  //   const maxVolumeIndex = volumes.indexOf(maximumVolume);
-  //   let maximumVolumeDate = dates[maxVolumeIndex];
-  //   setMaxVolume(maximumVolume);
-  //   setMaxVolumeDate(maximumVolumeDate);
-  //   console.log("MAX VOLUME AND DATE", maxVolume, maxVolumeDate);
-  // };
 
   const handleShouldBuyOrSell = () => {
     setMessage("");
@@ -214,64 +182,6 @@ function App() {
     const maxDate = findMaxPrice(financialData);
     setMaxPriceDate(maxDate);
   };
-
-  // const findMaxPrice = () => {
-  //   const prices = financialData.map((item) => item[1]);
-  //   const dates = financialData.map((item) => item[0]);
-  //   // const minPriceIndex = prices.indexOf(minPrice);
-  //   // console.log(minPriceIndex, "INDEX");
-  //   // const dates = financialData.map((item) => item[0]).slice(minPriceIndex);
-  //   // const new_prices = prices.slice(minPriceIndex);
-
-  //   // // //TODO: set left limit to be minDate
-  //   // // const prices = financialData.map((item) => item[1]);
-  //   // let maximumPrice = Math.max(...new_prices);
-  //   // const maxPriceIndex = new_prices.indexOf(maximumPrice);
-
-  //   let maxBenefit = 0;
-  //   let buyIndex = -1;
-  //   let sellIndex = -1;
-  //   for (let i = 0; i < prices.length; i++) {
-  //     for (let j = i; j < prices.length; j++) {
-  //       const benefit = prices[j] - prices[i];
-  //       if (benefit > maxBenefit) {
-  //         maxBenefit = benefit;
-  //         buyIndex = i;
-  //         sellIndex = j;
-  //       }
-  //     }
-  //   }
-
-  //   setMaxPrice(prices[sellIndex]);
-  //   let maximumPriceDate = dates[sellIndex];
-  //   setMaxPriceDate(maximumPriceDate);
-  //   console.log("MAX SELL", maxPriceDate, maxPrice);
-  // };
-
-  // const findMinPrice = () => {
-  //   let dates = financialData.map((item) => item[0]);
-  //   const prices = financialData.map((item) => item[1]);
-  //   // let minimumPrice = Math.min(...prices);
-  //   // const minPriceIndex = prices.indexOf(minimumPrice);
-  //   let maxBenefit = 0;
-  //   let buyIndex = -1;
-  //   let sellIndex = -1;
-  //   for (let i = 0; i < prices.length; i++) {
-  //     for (let j = i; j < prices.length; j++) {
-  //       const benefit = prices[j] - prices[i];
-  //       if (benefit > maxBenefit) {
-  //         maxBenefit = benefit;
-  //         buyIndex = i;
-  //         sellIndex = j;
-  //       }
-  //     }
-  //   }
-
-  //   setMinPrice(prices[buyIndex]);
-  //   let minimumPriceDate = dates[buyIndex];
-  //   setMinPriceDate(minimumPriceDate);
-  //   console.log("MIN BUY", minPriceDate, minPrice);
-  // };
 
   //If the price only decreases in the date range, warn to not buy and not sell
 
@@ -350,10 +260,12 @@ function App() {
 
         {showTrade &&
           (canTrade ? (
-            maxPrice ? (
+            maxPriceDate ? (
               <div>
-                {minPrice && <p>Should buy: on {convertToISO(minPriceDate)}</p>}
-                {maxPrice && (
+                {minPriceDate && (
+                  <p>Should buy: on {convertToISO(minPriceDate)}</p>
+                )}
+                {maxPriceDate && (
                   <p>Should sell: on {convertToISO(maxPriceDate)}</p>
                 )}
               </div>
