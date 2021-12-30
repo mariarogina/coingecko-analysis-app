@@ -22,10 +22,7 @@ export const findMaxVolume = (totalVol) => {
   let maximumVolume = Math.max(...volumes);
   const maxVolumeIndex = volumes.indexOf(maximumVolume);
   let maximumVolumeDate = dates[maxVolumeIndex];
-
   return [maximumVolume, maximumVolumeDate];
-
-  //   console.log("MAX VOLUME AND DATE", maxVolume, maxVolumeDate);
 };
 
 export const findMaxBenefit = (prices) => {

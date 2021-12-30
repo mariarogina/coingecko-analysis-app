@@ -7,6 +7,7 @@ import {
   findMaxPrice,
   findMinPrice,
 } from "./utils";
+import { Button } from "./Button";
 
 function App() {
   const [financialData, setFinancialData] = useState([]);
@@ -35,13 +36,10 @@ function App() {
             startDate + 3600
           }&to=${endDate}`
         );
-        console.log(resp.data);
         setMessage("");
         setLoadMessage("");
         setFinancialData(filterEntries(resp.data.prices));
         setTotalVolumes(filterEntries(resp.data.total_volumes));
-        console.log("DATA", financialData);
-        console.log("VOLUMES", totalVolumes);
         setDataLoaded(true);
         setLoadMessage("The data has NOT loaded, try to enter some dates");
       } catch (err) {
@@ -56,7 +54,6 @@ function App() {
   const filterEntries = (list) => {
     const uniqueDays = [];
     const uniqueEntries = [];
-    console.log("LIST TO FILTER:", list);
     list.forEach(function (item, index) {
       const dateDate = new Date(item[0]).toDateString();
 
@@ -65,8 +62,6 @@ function App() {
         uniqueEntries.push(item);
       }
     });
-
-    console.log("UNIQUE ENTRIES", uniqueEntries);
     return uniqueEntries;
   };
 
@@ -125,8 +120,6 @@ function App() {
       const maximumVolumeDate = maxVolInfo[1];
       setMaxVolume(maximumVolume);
       setMaxVolumeDate(maximumVolumeDate);
-      console.log(maxVolumeDate);
-      console.log(convertToISO(maxVolumeDate));
     } else {
       setMessage("Please enter some dates first for showing volume");
     }
@@ -214,38 +207,16 @@ function App() {
       <div className="appParagraph">
         {dataLoaded && financialData.length > 0 ? (
           <p style={{ color: "green", fontWeight: "700" }}>
-            {" "}
             The data has loaded, choose what you want to know
           </p>
         ) : (
           <p style={{ color: "red", fontWeight: "700" }}> {loadMessage}</p>
         )}
-        <button
-          className="infoButton"
-          onClick={() => {
-            handleFindDownward();
-          }}
-        >
-          Longest downward{" "}
-        </button>
+        <Button text="Longest downward" handlerFunc={handleFindDownward} />
 
-        <button
-          className="infoButton"
-          onClick={() => {
-            handleFindVolume();
-          }}
-        >
-          Highest trading volume
-        </button>
+        <Button text="Highest trading volume" handlerFunc={handleFindVolume} />
 
-        <button
-          className="infoButton"
-          onClick={() => {
-            handleShouldBuyOrSell();
-          }}
-        >
-          Sell and Buy
-        </button>
+        <Button text="Sell and Buy" handlerFunc={handleShouldBuyOrSell} />
       </div>
 
       <div className="appParagraph">

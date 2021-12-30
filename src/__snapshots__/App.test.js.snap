@@ -65,7 +65,6 @@ exports[`renders App component 1`] = `
       onClick={[Function]}
     >
       Longest downward
-       
     </button>
     <button
       className="infoButton"
