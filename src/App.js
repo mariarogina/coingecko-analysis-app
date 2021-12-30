@@ -188,6 +188,7 @@ function App() {
   return (
     <div className="App">
       <div className="appParagraph">
+        <h2 style={{ color: "darkgreen" }}>Bitcoin Data Analyzer</h2>
         <p className="appTitle">Set the date range</p>
         <form onSubmit={(e) => handleSubmitAndFilter(e)}>
           <input
@@ -195,12 +196,14 @@ function App() {
             type="date"
             placeholder="From"
             onInput={(e) => handleSetStart(e)}
+            required
           />
           <input
             className="formItem inputElement"
             type="date"
             placeholder="To"
             onInput={(e) => handleSetEnd(e)}
+            required
           />
           <button className="formItem submitButton" type="submit">
             Submit
@@ -215,7 +218,7 @@ function App() {
             The data has loaded, choose what you want to know
           </p>
         ) : (
-          <p> {loadMessage}</p>
+          <p style={{ color: "red", fontWeight: "700" }}> {loadMessage}</p>
         )}
         <button
           className="infoButton"

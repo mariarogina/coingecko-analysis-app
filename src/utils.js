@@ -45,45 +45,24 @@ export const findMaxBenefit = (prices) => {
   return [buyIndex, sellIndex];
 };
 
-export const findMaxPrice = (data) => {
-  const prices = data.map((item) => item[1]);
+export const findDatesPrices = (data) => {
   const dates = data.map((item) => item[0]);
+  const prices = data.map((item) => item[1]);
+  return [dates, prices];
+};
 
+export const findMaxPrice = (data) => {
+  const dates = findDatesPrices(data)[0];
+  const prices = findDatesPrices(data)[1];
   const maxIndex = findMaxBenefit(prices)[1];
-  let maximumPrice = prices[maxIndex];
   let maximumPriceDate = dates[maxIndex];
   return maximumPriceDate;
 };
 
 export const findMinPrice = (data) => {
-  const prices = data.map((item) => item[1]);
-  const dates = data.map((item) => item[0]);
-
+  const dates = findDatesPrices(data)[0];
+  const prices = findDatesPrices(data)[1];
   const minIndex = findMaxBenefit(prices)[0];
-  let minimumPrice = prices[minIndex];
   let minimumPriceDate = dates[minIndex];
   return minimumPriceDate;
 };
-
-// export const findMinPrice = (prices) => {
-//   let dates = financialData.map((item) => item[0]);
-//   const prices = financialData.map((item) => item[1]);
-//   let maxBenefit = 0;
-//   let buyIndex = -1;
-//   let sellIndex = -1;
-//   for (let i = 0; i < prices.length; i++) {
-//     for (let j = i; j < prices.length; j++) {
-//       const benefit = prices[j] - prices[i];
-//       if (benefit > maxBenefit) {
-//         maxBenefit = benefit;
-//         buyIndex = i;
-//         sellIndex = j;
-//       }
-//     }
-//   }
-
-//   setMinPrice(prices[sellIndex]);
-//   let minimumPriceDate = dates[sellIndex];
-//   setMinPriceDate(minimumPriceDate);
-//   console.log("MIN BUY", minPriceDate, minPrice);
-// };

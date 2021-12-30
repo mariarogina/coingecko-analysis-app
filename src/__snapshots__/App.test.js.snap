@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders App component 1`] = `
+<div
+  className="App"
+>
+  <div
+    className="appParagraph"
+  >
+    <h2
+      style={
+        Object {
+          "color": "darkgreen",
+        }
+      }
+    >
+      Bitcoin Data Analyzer
+    </h2>
+    <p
+      className="appTitle"
+    >
+      Set the date range
+    </p>
+    <form
+      onSubmit={[Function]}
+    >
+      <input
+        className="formItem inputElement"
+        onInput={[Function]}
+        placeholder="From"
+        required={true}
+        type="date"
+      />
+      <input
+        className="formItem inputElement"
+        onInput={[Function]}
+        placeholder="To"
+        required={true}
+        type="date"
+      />
+      <button
+        className="formItem submitButton"
+        type="submit"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+  <div
+    className="appParagraph"
+  >
+    <p
+      style={
+        Object {
+          "color": "red",
+          "fontWeight": "700",
+        }
+      }
+    >
+       
+      
+    </p>
+    <button
+      className="infoButton"
+      onClick={[Function]}
+    >
+      Longest downward
+       
+    </button>
+    <button
+      className="infoButton"
+      onClick={[Function]}
+    >
+      Highest trading volume
+    </button>
+    <button
+      className="infoButton"
+      onClick={[Function]}
+    >
+      Sell and Buy
+    </button>
+  </div>
+  <div
+    className="appParagraph"
+  />
+</div>
+`;
